@@ -5,7 +5,7 @@ sg.theme('DarkBlack')
 # Add a touch of color
 
 #Car models
-Models = ['Honda', 'Toyota', 'Chevrolet', 'Jeep', 'Ford', 'Bolero', 'SUV', 'SwiftDesire']
+Models = ['Honda', 'Toyota', 'Chevrolet', 'Jeep', 'Ford', 'Bolero', 'SUV', 'SwiftDesire', 'Sedan']
 
 # All the stuff inside your window.
 layout = [  
