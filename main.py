@@ -1,30 +1,84 @@
-import PySimpleGUI as sg
-import datetime as dt
+from kivy.lang import Builder
+from kivymd.app import MDApp
 
-sg.theme('DarkBlack')   
-# Add a touch of color
+KV = '''
+<DrawerClickableItem@MDNavigationDrawerItem>
+    focus_color: "#e7e4c0"
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    ripple_color: "#c5bdd2"
+    selected_color: "#0c6c4d"
 
-#Car models
-Models = ['Honda', 'Toyota', 'Chevrolet', 'Jeep', 'Ford', 'Bolero', 'SUV', 'SwiftDesire']
 
-# All the stuff inside your window.
-layout = [  
-            [sg.Text('Welcome to Park-n-Go')],
-            [sg.Text('A tool to track and Save Details of Vehicles Entering the Parking Zone')],
-            [sg.Text('Enter Registration Number : '), sg.InputText()],
-            [sg.Text('Choose Model : '), sg.Combo(Models)],
-            [sg.Text('Parking Space ID : '), sg.InputText()],
-            [sg.Text('Time of Entry : '), sg.InputText()],
-            [sg.Button('Ok'), sg.Button('Cancel')] 
-        ]
+<DrawerLabelItem@MDNavigationDrawerItem>
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    focus_behavior: False
+    selected_color: "#4a4939"
+    _no_ripple_effect: True
 
-# Create the Window
-window = sg.Window('Park-n-Go', layout, font='Helvetica 12', element_justification='c')
-# Event Loop to process "events" and get the "values" of the inputs
-while True:
-    event, values = window.read()
-    if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
-        break
-    print(values)
 
-window.close()
+MDScreen:
+
+    MDNavigationLayout:
+
+        MDScreenManager:
+
+            MDScreen:
+
+                MDTopAppBar:
+                    title: "Navigation Drawer"
+                    elevation: 4
+                    pos_hint: {"top": 1}
+                    md_bg_color: "#e7e4c0"
+                    specific_text_color: "#4a4939"
+                    left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+
+            MDNavigationDrawerMenu:
+
+                MDNavigationDrawerHeader:
+                    title: "Header title"
+                    title_color: "#4a4939"
+                    text: "Header text"
+                    spacing: "4dp"
+                    padding: "12dp", 0, 0, "56dp"
+
+                MDNavigationDrawerLabel:
+                    text: "Mail"
+
+                DrawerClickableItem:
+                    icon: "gmail"
+                    right_text: "+99"
+                    text_right_color: "#4a4939"
+                    text: "Inbox"
+
+                DrawerClickableItem:
+                    icon: "send"
+                    text: "Outbox"
+
+                MDNavigationDrawerDivider:
+
+                MDNavigationDrawerLabel:
+                    text: "Labels"
+
+                DrawerLabelItem:
+                    icon: "information-outline"
+                    text: "Label"
+
+                DrawerLabelItem:
+                    icon: "information-outline"
+                    text: "Label"
+'''
+
+
+class Navbar(MDApp):
+    def build(self):
+        self.theme_cls.theme_style = "Dark"
+        return Builder.load_string(KV)
+
+
+Navbar().run()
