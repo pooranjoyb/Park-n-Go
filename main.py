@@ -1,5 +1,6 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
+from kivymd.icon_definitions import md_icons
 
 KV = '''
 <DrawerClickableItem@MDNavigationDrawerItem>
@@ -27,7 +28,7 @@ MDScreen:
             MDScreen:
 
                 MDTopAppBar:
-                    title: "Navigation Drawer"
+                    title: "Navbar"
                     elevation: 4
                     pos_hint: {"top": 1}
                     md_bg_color: "#e7e4c0"
@@ -40,44 +41,23 @@ MDScreen:
 
             MDNavigationDrawerMenu:
 
-                MDNavigationDrawerHeader:
-                    title: "Header title"
-                    title_color: "#4a4939"
-                    text: "Header text"
-                    spacing: "4dp"
-                    padding: "12dp", 0, 0, "56dp"
-
                 MDNavigationDrawerLabel:
-                    text: "Mail"
+                    text: "Registers"
 
                 DrawerClickableItem:
-                    icon: "gmail"
-                    right_text: "+99"
-                    text_right_color: "#4a4939"
-                    text: "Inbox"
+                    icon: "car-brake-parking"
+                    text: "Checkin"
 
                 DrawerClickableItem:
-                    icon: "send"
-                    text: "Outbox"
-
-                MDNavigationDrawerDivider:
-
-                MDNavigationDrawerLabel:
-                    text: "Labels"
-
-                DrawerLabelItem:
-                    icon: "information-outline"
-                    text: "Label"
-
-                DrawerLabelItem:
-                    icon: "information-outline"
-                    text: "Label"
+                    icon: "car"
+                    text: "Checkout"
 '''
 
 
 class Navbar(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "Red" 
         return Builder.load_string(KV)
 
 
