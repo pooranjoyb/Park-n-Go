@@ -14,13 +14,13 @@ MDScreen:
             halign:"center"
             color:rgba(127, 127, 127, 255)
         Button:
-            text: "SIGNUP"
+            text: "LOGIN"
             size_hint: .66, .065
             pos_hint:{"center_x": .5,"center_y": .09}
             background_color:0, 0, 0, 0
             on_release:
                 root.manager.transition.direction="left"
-                root.manager.current="signup"
+                root.manager.current="login"
             canvas.before:
                 Color:
                     rgb: rgba(52, 0, 231, 255)
