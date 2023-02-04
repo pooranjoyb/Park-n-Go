@@ -1,0 +1,30 @@
+MDScreen:
+    name:"main"
+    MDFloatLayout:
+        md_bg_color:1,1,1,1
+        Image:
+            source:"assets/logo.png"
+            size_hint:.8,.8
+            pos_hint:{"center_x": .5, "center_y": .65}
+        MDLabel:
+            text:"Welcome to Park-n-Go. Press the button below to authenticate yourself into the dashboard"
+            font_size: "16sp"
+            size_hint_x: .85
+            pos_hint: {"center_x":.5, "center_y": .3}
+            halign:"center"
+            color:rgba(127, 127, 127, 255)
+        Button:
+            text: "SIGNUP"
+            size_hint: .66, .065
+            pos_hint:{"center_x": .5,"center_y": .09}
+            background_color:0, 0, 0, 0
+            on_release:
+                root.manager.transition.direction="left"
+                root.manager.current="signup"
+            canvas.before:
+                Color:
+                    rgb: rgba(52, 0, 231, 255)
+                RoundedRectangle:
+                    size: self.size
+                    pos:self.pos
+                    radius:[5]
