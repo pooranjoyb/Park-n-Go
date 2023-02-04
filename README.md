@@ -7,7 +7,7 @@ This is Parking system using mysql as a database
 
 ## Tech Stack
 
-- PySimpleGui
+- KivyMD
 - MySQL
 - **Jinja2 and PDFkit** 
 
