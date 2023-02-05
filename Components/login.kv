@@ -45,6 +45,7 @@ MDScreen:
             font_size: "20sp"
             pos_hint: {"center_x":.6, "center_y": .79}
             color:rgba(135, 133, 193, 255)
+        
         MDTextField:
             id: text_field_error
             hint_text: "Enter User ID"
@@ -59,4 +60,18 @@ MDScreen:
             hint_text: "Password"
             size_hint: .8, .07
             pos_hint: {"center_x": .5, "center_y": .53}
-                
+        Button:
+            text: "SIGN IN"
+            size_hint: .66, .065
+            pos_hint:{"center_x": .5,"center_y": .09}
+            background_color:0, 0, 0, 0
+            on_release:
+                root.manager.transition.direction="left"
+                root.manager.current="login"
+            canvas.before:
+                Color:
+                    rgb: rgba(52, 0, 231, 255)
+                RoundedRectangle:
+                    size: self.size
+                    pos:self.pos
+                    radius:[5]
