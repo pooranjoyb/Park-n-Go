@@ -9,11 +9,14 @@ from kivy.core.window import Window
 Window.size = (600, 600)
 class Screen(MDApp):
     def build(self):
-        self.theme_cls.theme_style = "Dark"
         screen_manager = ScreenManager()
         screen_manager.add_widget(Builder.load_file("./Components/screen.kv"))
+        screen_manager.add_widget(Builder.load_file("./Components/login.kv"))
         return screen_manager
 
+if __name__=="__main__":
+    LabelBase.register(name="MPoppins", fn_regular="assets/fonts/Poppins-Medium.ttf")
+    LabelBase.register(name="BPoppins", fn_regular="/home/madhurjya/Downloads/Poppins-SemiBold.ttf")
 Screen().run()
 
 
