@@ -1,4 +1,5 @@
 from kivy.lang import Builder
+from kivy.core.text import LabelBase
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.app import MDApp
 from kivy.core.window import Window
