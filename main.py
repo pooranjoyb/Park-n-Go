@@ -23,7 +23,7 @@ class Screen(MDApp):
 
 if __name__=="__main__":
     LabelBase.register(name="MPoppins", fn_regular="assets/fonts/Poppins-Medium.ttf")
-    LabelBase.register(name="BPoppins", fn_regular="/home/madhurjya/Downloads/Poppins-SemiBold.ttf")
+    LabelBase.register(name="BPoppins", fn_regular="assets/fonts/Poppins-SemiBold.ttf")
 Screen().run()
 
 
