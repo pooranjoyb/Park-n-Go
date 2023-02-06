@@ -15,6 +15,10 @@ class ClickableTextFieldRound(MDRelativeLayout):
     hint_text = StringProperty()
 
 class Screen(MDApp):
+    def __init__(self, **kwargs):
+        self.title = "Park-N-Go"
+        super().__init__(**kwargs)
+
     def build(self):
         screen_manager = ScreenManager()
         screen_manager.add_widget(Builder.load_file("./Components/screen.kv"))
