@@ -12,9 +12,6 @@ from kivy.uix.screenmanager import Screen
 #Set pre defined window size
 Window.size = (600, 600)
 
-# class ClickableTextFieldRound(MDRelativeLayout):
-#     text = StringProperty()
-#     hint_text = StringProperty()
 
 class WindowManager(ScreenManager):
     pass
