@@ -23,6 +23,9 @@ class Park(MDApp):
         print(self.screen.get_screen('login').ids.text1.text)
         print(self.screen.get_screen('login').ids.passw.text)
 
+    def saveTodb(self):
+        print("Data saved to database")
+
 if __name__=="__main__":
     LabelBase.register(name="MPoppins", fn_regular="assets/fonts/Poppins-Medium.ttf")
     LabelBase.register(name="BPoppins", fn_regular="assets/fonts/Poppins-SemiBold.ttf")
