@@ -1,5 +1,5 @@
 #:kivy 1.0
-MDScreen:
+<Screen1>:
     name:"main"
     MDFloatLayout:
         md_bg_color:1,1,1,1
@@ -28,8 +28,8 @@ MDScreen:
             pos_hint:{"center_x": .5,"center_y": .09}
             background_color:0, 0, 0, 0
             on_release:
-                root.manager.transition.direction="left"
-                root.manager.current="login"
+                app.root.transition.direction="left"
+                app.root.current="login"
             canvas.before:
                 Color:
                     rgb: rgba(52, 0, 231, 255)
