@@ -57,12 +57,20 @@
 
             MDIconButton:
                 icon: "eye-off"
-                pos_hint: {"center_y": .7}
+                pos_hint: {"center_y": .58}
                 pos: passw.width - self.width + dp(8), 0
                 theme_text_color: "Hint"
                 on_release:
                     self.icon = "eye" if self.icon == "eye-off" else "eye-off"
                     passw.password = False if passw.password is True else True
+
+        MDLabel:
+            text:"Forgot Password"
+            font_name: "MPoppins"
+            font_size: "15sp"
+            pos_hint: {"center_x":.6, "center_y": .45}
+            color:rgba(135, 133, 193, 255)
+                
 
         Button:
             text: "SIGN IN"
