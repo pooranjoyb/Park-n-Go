@@ -1,9 +1,12 @@
-#: import screen1 Components.screen1.Screen1
+#: import WelcomeScreen Components.welcomeScreen.WelcomeScreen
 #: import Login Components.login.Login
+#: import MainScreen Components.mainscreen.MainScreen
 
-#:include Components/screen1.kv
+#:include Components/welcomeScreen.kv
 #:include Components/login.kv
+#:include Components/mainscreen.kv
 
 WindowManager:
-    Screen1:
+    WelcomeScreen:
     Login:
+    MainScreen:
