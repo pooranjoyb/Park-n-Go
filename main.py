@@ -12,9 +12,9 @@ from kivy.uix.screenmanager import Screen
 #Set pre defined window size
 Window.size = (600, 600)
 
-class ClickableTextFieldRound(MDRelativeLayout):
-    text = StringProperty()
-    hint_text = StringProperty()
+# class ClickableTextFieldRound(MDRelativeLayout):
+#     text = StringProperty()
+#     hint_text = StringProperty()
 
 class WindowManager(ScreenManager):
     pass
@@ -25,7 +25,7 @@ class Park(MDApp):
         return self.screen
 
     def hello(self):
-        # print(self.screen.get_screen('login').ids.text1.text)
+        print(self.screen.get_screen('login').ids.text1.text)
         print(self.screen.get_screen('login').ids.passw.text)
 
 if __name__=="__main__":
