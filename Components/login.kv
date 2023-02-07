@@ -10,7 +10,8 @@
             theme_text_color: "Custom"
             text_color: rgba(26, 24, 58, 255)
             on_release:
-                app.root.current = "screen1"
+                app.root.transition.direction="right"
+                app.root.current = "welcomeScreen"
         MDLabel:
             text:"W e l c o m e !"
             font_name: "MPoppins"
@@ -62,6 +63,8 @@
             background_color:0, 0, 0, 0
             on_release:
                 app.hello()
+                app.root.transition.direction="left"
+                app.root.current="mainscreen"
             canvas.before:
                 Color:
                     rgb: rgba(52, 0, 231, 255)
