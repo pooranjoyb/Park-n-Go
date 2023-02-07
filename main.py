@@ -1,7 +1,6 @@
 from kivy.lang import Builder
 from kivy.core.text import LabelBase
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivy.properties import StringProperty
 from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.app import MDApp
 from kivy.core.window import Window
@@ -11,7 +10,6 @@ from kivy.uix.screenmanager import Screen
 
 #Set pre defined window size
 Window.size = (600, 600)
-
 
 class WindowManager(ScreenManager):
     pass
