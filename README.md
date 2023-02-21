@@ -33,7 +33,7 @@ The application allows users to perform the following tasks:
 * **Real-time parking availability**: The system should be able to track the availability of parking spots in real-time and display this information to users.
 * **Create a database**: The system creates a database that stores information about the vehicle registration number, customer name, phone       
     number,in_time,out_time and other relevant data. 
-* **Calclates Time Period**: The system calculates the total time of vehicle parked in parking area by using formula (out_time - in_time).
+* **Calculates Time Period**: The system calculates the total time of vehicle parked in parking area by using formula (out_time - in_time).
 * **Parking Net Amount**: The system also calculates the net amount for parking a vehicle for certain period of time.
 
 ## Contributing
