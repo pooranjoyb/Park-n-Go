@@ -21,7 +21,8 @@ class Park_n_Go(MDApp):
         self.screen = Builder.load_file("./Components/main.kv")
         menu_items=[{"text": "Light Vehicle", "viewclass": "OneLineListItem", "on_release": lambda text="Light":self.display_text(text)}, 
                     {"text": "Heavy Vehicle", "viewclass": "OneLineListItem", "on_release": lambda text="Heavy":self.display_text(text)},
-                    {"text":"Motorcycle", "viewclass": "OneLineListItem", "on_release": lambda text="Motor":self.display_text(text)}]
+                    {"text":"Bicycle", "viewclass": "OneLineListItem", "on_release": lambda text="cycle":self.display_text(text)},
+                    {"text":"Three wheeler", "viewclass": "OneLineListItem", "on_release": lambda text="3-wheel":self.display_text(text)}]
         self.menu = MDDropdownMenu(
             caller=self.screen.get_screen('mainscreen').ids.drop,
             items=menu_items,
