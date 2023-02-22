@@ -18,7 +18,7 @@ To get started with this application, you will need to have Kivy installed on yo
 
 ### Copy code
 ```
-pip install kivy
+pip install kivymd
 ```
 Once you have installed Kivy, you can run the application by executing the following command:
 
