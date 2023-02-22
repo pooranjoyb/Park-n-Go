@@ -80,8 +80,11 @@
                 font_size: "18sp"
                 pos_hint: {"center_x": .6, "center_y": .35}
                 color:rgba(160,179,191, 255)
-
-
+            MDRaisedButton:
+                id: drop
+                text: "Click To Select  "
+                pos_hint: {"center_x": .53, "center_y": .35}
+                on_release: app.menu.open()
         MDFloatLayout:
             MDLabel:
                 text:"Select time of entry : "
