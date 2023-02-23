@@ -43,9 +43,13 @@ class Park_n_Go(MDApp):
         '''Open time picker dialog.'''
         time_dialog = MDTimePicker()
         time_dialog.open()
+        time_dialog.bind(on_save=self.get_time)
 
     def saveTodb(self):
         print("Data saved to database")
+
+    def get_time(self, instance, time):
+        print(time)
 
 if __name__=="__main__":
     LabelBase.register(name="MPoppins", fn_regular="assets/fonts/Poppins-Medium.ttf")
