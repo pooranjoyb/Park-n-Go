@@ -1,7 +1,6 @@
 from kivy.lang import Builder
 from kivy.core.text import LabelBase
 from kivymd.app import MDApp
-from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.window import Window
 from kivymd.uix.pickers import MDTimePicker
