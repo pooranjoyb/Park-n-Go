@@ -20,7 +20,7 @@
             color:rgba(0, 0, 59, 255)
 
         MDLabel:
-            text:"Choose field to Enter"
+            text:"Choose Field to Enter"
             font_name: "MPoppins"
             font_size: "20sp"
             pos_hint: {"center_x":.84, "center_y": .79}
@@ -28,13 +28,13 @@
                 
 
         Button:
-            text: "Billing"
+            text: "BILLINGS"
             size_hint: .66, .065
             pos_hint:{"center_x": .5,"center_y": .55}
             background_color:0, 0, 0, 0
             on_release:
                 app.root.transition.direction="left"
-                app.root.current="mainscreen"
+                app.root.current="billing"
             canvas.before:
                 Color:
                     rgb: rgba(52, 0, 231, 255)
@@ -43,7 +43,7 @@
                     pos:self.pos
                     radius:[5]
         Button:
-            text: "Record Data"
+            text: "ADD RECORDS"
             size_hint: .66, .065
             pos_hint:{"center_x": .5,"center_y": .45}
             background_color:0, 0, 0, 0
