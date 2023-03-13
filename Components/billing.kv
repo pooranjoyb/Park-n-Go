@@ -1,6 +1,6 @@
 #:kivy 1.0
-<Login>:
-    name: "login"
+<Billing>:
+    name: "billing"
     MDFloatLayout:
         md_bg_color: 1,1,1,1
         MDIconButton:
@@ -11,16 +11,16 @@
             text_color: rgba(26, 24, 58, 255)
             on_release:
                 app.root.transition.direction="right"
-                app.root.current = "welcomeScreen"
+                app.root.current = "register"
         MDLabel:
-            text:"W e l c o m e !"
+            text:"B i l l i n g s  : "
             font_name: "MPoppins"
             font_size: "26sp"
             pos_hint: {"center_x": .6, "center_y": .85}
             color:rgba(0, 0, 59, 255)
 
         MDLabel:
-            text:"Sign in to continue"
+            text:"Get all User Records in One Tap"
             font_name: "MPoppins"
             font_size: "20sp"
             pos_hint: {"center_x":.6, "center_y": .79}
@@ -36,54 +36,39 @@
 
             MDTextField:
                 id: text1
-                hint_text: "Enter User ID"
+                hint_text: "Enter Registration Number"
                 helper_text: "User ID minimum 8 characters"
                 helper_text_mode: "on_error"
                 pos_hint: {"center_x": .5, "center_y": .67}
                 size_hint_x: .78
                 min_text_length: 5
                 icon_left: "account"
-                
-        MDRelativeLayout:
-            size_hint_x: None
-            width: "300dp"
-            size_hint: .8, .07
-            pos_hint: {"center_x": .5, "center_y": .53}
-            size_hint_y: None
-            height: passw.height
-
-            MDTextField:
-                id: passw
-                hint_text: "Password"
-                password: True
-                icon_left: "key-variant"
-
-            MDIconButton:
-                icon: "eye-off"
-                pos_hint: {"center_y": .58}
-                pos: passw.width - self.width + dp(8), 0
-                theme_text_color: "Hint"
-                on_release:
-                    self.icon = "eye" if self.icon == "eye-off" else "eye-off"
-                    passw.password = False if passw.password is True else True
-
-        MDLabel:
-            text:"Forgot Password"
-            font_name: "MPoppins"
-            font_size: "15sp"
-            pos_hint: {"center_x":.6, "center_y": .45}
-            color:rgba(135, 133, 193, 255)
-                
 
         Button:
-            text: "SIGN IN"
+            text: "Download Receipt"
             size_hint: .66, .065
-            pos_hint:{"center_x": .5,"center_y": .09}
+            pos_hint:{"center_x": .5,"center_y": .45}
             background_color:0, 0, 0, 0
             on_release:
                 app.hello()
                 app.root.transition.direction="left"
-                app.root.current="register"
+                app.root.current="billing"
+            canvas.before:
+                Color:
+                    rgb: rgba(52, 0, 231, 255)
+                RoundedRectangle:
+                    size: self.size
+                    pos:self.pos
+                    radius:[5]
+        Button:
+            text: "Show Receipt"
+            size_hint: .66, .065
+            pos_hint:{"center_x": .5,"center_y": .35}
+            background_color:0, 0, 0, 0
+            on_release:
+                app.hello()
+                app.root.transition.direction="left"
+                app.root.current="receipt"
             canvas.before:
                 Color:
                     rgb: rgba(52, 0, 231, 255)
