@@ -5,6 +5,19 @@ from kivy.uix.screenmanager import ScreenManager
 from kivy.core.window import Window
 from kivymd.uix.pickers import MDTimePicker
 from kivymd.uix.menu import MDDropdownMenu
+import mysql.connector as ms
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+USER=os.getenv('USER')
+HOST = os.getenv('HOST')
+DATABASE = os.getenv('DATABASE')
+PASSWORD = os.getenv('PASSWORD')
+PORT = os.getenv('PORT')
+
+mydb = ms.connect(host=HOST, user=USER, database=DATABASE, password=PASSWORD, port=PORT)
+print(mydb)
 
 #Set pre defined window size
 Window.size = (600, 600)
@@ -32,6 +45,10 @@ class Park_n_Go(MDApp):
         print(text)
 
     def hello(self):
+        cur = mydb.cursor()
+        cur.execute("select * from admin")
+        res = cur.fetchall()
+        print(res)
         print(self.screen.get_screen('login').ids.text1.text)
         print(self.screen.get_screen('login').ids.passw.text)
 
@@ -51,9 +68,3 @@ if __name__=="__main__":
     LabelBase.register(name="MPoppins", fn_regular="assets/fonts/Poppins-Medium.ttf")
     LabelBase.register(name="BPoppins", fn_regular="assets/fonts/Poppins-SemiBold.ttf")
 Park_n_Go().run()
-
-
-                
-        
-
-        
