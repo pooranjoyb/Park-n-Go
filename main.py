@@ -49,6 +49,13 @@ class Park_n_Go(MDApp):
         print(text)
 
     def save(self):
+
+        # Getting input from MainScreen
+        regNo = self.screen.get_screen('mainscreen').ids.regNo
+        name = self.screen.get_screen('mainscreen').ids.name
+        phno = self.screen.get_screen('mainscreen').ids.phno
+
+        print(regNo.text, name.text, phno.text)
         print("Saved to Database")
 
     def DownloadReceipt(self):
