@@ -1,0 +1,27 @@
+#:kivy 1.0
+<Receipt>:
+    name: "receipt"
+    MDFloatLayout:
+        md_bg_color: 1,1,1,1
+        MDIconButton:
+            icon: "arrow-left"
+            pos_hint: {"center_y": .95}
+            user_font_size: "30sp"
+            theme_text_color: "Custom"
+            text_color: rgba(26, 24, 58, 255)
+            on_release:
+                app.root.transition.direction="right"
+                app.root.current = "billing"
+        MDLabel:
+            text:"R e c e i p t : "
+            font_name: "MPoppins"
+            font_size: "26sp"
+            pos_hint: {"center_x": .6, "center_y": .85}
+            color:rgba(0, 0, 59, 255)
+
+        MDLabel:
+            text:"User Recipt"
+            font_name: "MPoppins"
+            font_size: "20sp"
+            pos_hint: {"center_x":.6, "center_y": .79}
+            color:rgba(135, 133, 193, 255)
