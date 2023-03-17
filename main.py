@@ -16,8 +16,12 @@ DATABASE = os.getenv('DATABASE')
 PASSWORD = os.getenv('PASSWORD')
 PORT = os.getenv('PORT')
 
-mydb = ms.connect(host=HOST, user=USER, database=DATABASE, password=PASSWORD, port=PORT)
-print(mydb)
+try:
+    mydb = ms.connect(host=HOST, user=USER, database=DATABASE, password=PASSWORD, port=PORT)
+    print("Connected to database")
+except:
+    print("Cannot connect to database")
+
 
 #Set pre defined window size
 Window.size = (600, 600)
