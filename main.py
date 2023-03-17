@@ -18,8 +18,12 @@ DATABASE = os.getenv('DATABASE')
 PASSWORD = os.getenv('PASSWORD')
 PORT = os.getenv('PORT')
 
-mydb = ms.connect(host=HOST, user=USER, database=DATABASE, password=PASSWORD, port=PORT)
-print(mydb)
+try:
+    mydb = ms.connect(host=HOST, user=USER, database=DATABASE, password=PASSWORD, port=PORT)
+    print("Connected to database")
+except:
+    print("Cannot connect to database")
+
 
 #Set pre defined window size
 Window.size = (600, 600)
@@ -46,28 +50,42 @@ class Park_n_Go(MDApp):
         self.menu.dismiss()
         print(text)
 
-    def show_alert_dialog(self):
-        cur = mydb.cursor()
-        cur.execute("select * from admin")
-        res = cur.fetchall()
-        print(res)
+    
 
-        username = self.screen.get_screen('login').ids.text1.text
-        password = self.screen.get_screen('login').ids.passw
-        print((username, password) in res)
+    def save(self):
+
+        # Getting input from MainScreen
+        regNo = self.screen.get_screen('mainscreen').ids.regNo
+        name = self.screen.get_screen('mainscreen').ids.name
+        phno = self.screen.get_screen('mainscreen').ids.phno
+
+        print(regNo.text, name.text, phno.text)
+        print("Saved to Database")
+
+    def DownloadReceipt(self):
+        print("Downloadeded Receipt")
+    
+    def showReceipt(self):
+        print("Served receipt data to Screen")
+
+    def auth(self):
+        print("Passed Authentication")
+        print(self.screen.get_screen('login').ids.text1.text)
+        print(self.screen.get_screen('login').ids.passw.text)
+
         self.dialog = MDDialog(
-            text="Invalid Username or Pass",
-            buttons=[
-                MDFlatButton(
-                    text="Try Again",
-                    on_release=lambda _: self.dialog.dismiss()
-                ),
-                MDFlatButton(
-                    text="EXIT",
-                    on_release=print("Hello World")
-                ),
-            ],
-        )
+        text="Invalid Username or Pass",
+        buttons=[
+            MDFlatButton(
+                text="Try Again",
+                on_release=lambda _: self.dialog.dismiss()
+            ),
+            MDFlatButton(
+                text="EXIT",
+                on_release=print("Hello World")
+            ),
+        ],
+    )
         self.dialog.open()
 
     def show_time_picker(self):

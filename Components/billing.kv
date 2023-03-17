@@ -50,7 +50,7 @@
             pos_hint:{"center_x": .5,"center_y": .45}
             background_color:0, 0, 0, 0
             on_release:
-                app.hello()
+                app.DownloadReceipt()
                 app.root.transition.direction="left"
                 app.root.current="billing"
             canvas.before:
@@ -66,7 +66,7 @@
             pos_hint:{"center_x": .5,"center_y": .35}
             background_color:0, 0, 0, 0
             on_release:
-                app.hello()
+                app.showReceipt()
                 app.root.transition.direction="left"
                 app.root.current="receipt"
             canvas.before:

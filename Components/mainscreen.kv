@@ -31,10 +31,10 @@
             size_hint: 1.02, .07
             pos_hint: {"center_x": .5, "center_y": .63}
             size_hint_y: None
-            height: text1.height
+            height: regNo.height
 
             MDTextField:
-                id: text1
+                id: regNo
                 hint_text: "Enter registration number"
                 pos_hint: {"center_x": .5, "center_y": .67}
                 size_hint_x: .78
@@ -47,10 +47,10 @@
             size_hint: 1.02, .07
             pos_hint: {"center_x": .5, "center_y": .54}
             size_hint_y: None
-            height: text1.height
+            height: name.height
 
             MDTextField:
-                id: text1
+                id: name
                 hint_text: "Enter name"
                 pos_hint: {"center_x": .5, "center_y": .54}
                 size_hint_x: .78
@@ -63,10 +63,10 @@
             size_hint: 1.02, .07
             pos_hint: {"center_x": .5, "center_y": .44}
             size_hint_y: None
-            height: text1.height
+            height: phno.height
 
             MDTextField:
-                id: text1
+                id: phno
                 hint_text: "Enter Phone number"
                 pos_hint: {"center_x": .5, "center_y": .44}
                 size_hint_x: .78
@@ -107,7 +107,7 @@
             pos_hint:{"center_x": .5,"center_y": .09}
             background_color:0, 0, 0, 0
             on_release:
-                app.hello()
+                app.save()
                 app.root.transition.direction="left"
                 app.root.current="mainscreen"
             canvas.before:
