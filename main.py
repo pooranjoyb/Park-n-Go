@@ -73,20 +73,20 @@ class Park_n_Go(MDApp):
         print(self.screen.get_screen('login').ids.text1.text)
         print(self.screen.get_screen('login').ids.passw.text)
 
-        self.dialog = MDDialog(
-        text="Invalid Username or Pass",
-        buttons=[
-            MDFlatButton(
-                text="Try Again",
-                on_release=lambda _: self.dialog.dismiss()
-            ),
-            MDFlatButton(
-                text="EXIT",
-                on_release=print("Hello World")
-            ),
-        ],
-    )
-        self.dialog.open()
+    #     self.dialog = MDDialog(
+    #     text="Invalid Username or Pass",
+    #     buttons=[
+    #         MDFlatButton(
+    #             text="Try Again",
+    #             on_release=lambda _: self.dialog.dismiss()
+    #         ),
+    #         MDFlatButton(
+    #             text="EXIT",
+    #             on_release=print("Hello World")
+    #         ),
+    #     ],
+    # )
+    #     self.dialog.open()
 
     def show_time_picker(self):
         '''Open time picker dialog.'''
