@@ -24,6 +24,20 @@ Once you have installed the dependencies, you can run the application by executi
 ```python
 python main.py
 ```
+
+## Setting up .env file
+
+```python
+# Update the .env with the variables
+
+USER='username'
+HOST='hostname'
+DATABASE='database'
+PASSWORD='pass'
+PORT='port'
+```
+
+
 ## Features
 The Application allows users to perform the following tasks:
 
