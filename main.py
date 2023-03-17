@@ -8,6 +8,8 @@ from kivymd.uix.menu import MDDropdownMenu
 import mysql.connector as ms
 from dotenv import load_dotenv
 import os
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
 
 load_dotenv()
 USER=os.getenv('USER')
@@ -48,6 +50,8 @@ class Park_n_Go(MDApp):
         self.menu.dismiss()
         print(text)
 
+    
+
     def save(self):
 
         # Getting input from MainScreen
@@ -68,6 +72,21 @@ class Park_n_Go(MDApp):
         print("Passed Authentication")
         print(self.screen.get_screen('login').ids.text1.text)
         print(self.screen.get_screen('login').ids.passw.text)
+
+    #     self.dialog = MDDialog(
+    #     text="Invalid Username or Pass",
+    #     buttons=[
+    #         MDFlatButton(
+    #             text="Try Again",
+    #             on_release=lambda _: self.dialog.dismiss()
+    #         ),
+    #         MDFlatButton(
+    #             text="EXIT",
+    #             on_release=print("Hello World")
+    #         ),
+    #     ],
+    # )
+    #     self.dialog.open()
 
     def show_time_picker(self):
         '''Open time picker dialog.'''
