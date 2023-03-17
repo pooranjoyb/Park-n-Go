@@ -48,11 +48,17 @@ class Park_n_Go(MDApp):
         self.menu.dismiss()
         print(text)
 
-    def hello(self):
-        cur = mydb.cursor()
-        cur.execute("select * from admin")
-        res = cur.fetchall()
-        print(res)
+    def save(self):
+        print("Saved to Database")
+
+    def DownloadReceipt(self):
+        print("Downloadeded Receipt")
+    
+    def showReceipt(self):
+        print("Served receipt data to Screen")
+
+    def auth(self):
+        print("Passed Authentication")
         print(self.screen.get_screen('login').ids.text1.text)
         print(self.screen.get_screen('login').ids.passw.text)
 
