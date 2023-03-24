@@ -1,3 +1,4 @@
+import os
 from kivy.lang import Builder
 from kivy.core.text import LabelBase
 from kivymd.app import MDApp
@@ -7,7 +8,6 @@ from kivymd.uix.pickers import MDTimePicker
 from kivymd.uix.menu import MDDropdownMenu
 import mysql.connector as ms
 from dotenv import load_dotenv
-import os
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 
@@ -37,24 +37,27 @@ class WindowManager(ScreenManager):
 
 class Park_n_Go(MDApp):
     def build(self):
+
+        self.userModel = ""
+        self.entryTime = ""
+
         self.screen = Builder.load_file("./Components/main.kv")
-        menu_items = [{"text": "Light Vehicle", "viewclass": "OneLineListItem", "on_release": lambda text="Light": self.display_text(text)},
+        menu_items = [{"text": "Light Vehicle", "viewclass": "OneLineListItem", "on_release": lambda text="Light Vehicle": self.display_text(text)},
                       {"text": "Heavy Vehicle", "viewclass": "OneLineListItem",
-                          "on_release": lambda text="Heavy": self.display_text(text)},
+                          "on_release": lambda text="Heavy Vehicle": self.display_text(text)},
                       {"text": "Bicycle", "viewclass": "OneLineListItem",
-                          "on_release": lambda text="cycle": self.display_text(text)},
-                      {"text": "Three wheeler", "viewclass": "OneLineListItem", "on_release": lambda text="3-wheel": self.display_text(text)}]
+                          "on_release": lambda text="Cycle": self.display_text(text)},
+                      {"text": "Three wheeler", "viewclass": "OneLineListItem", "on_release": lambda text="3-Wheeler": self.display_text(text)}]
         self.menu = MDDropdownMenu(
             caller=self.screen.get_screen('mainscreen').ids.drop,
             items=menu_items,
             width_mult=4,
         )
-
         return self.screen
 
     def display_text(self, text):
         self.menu.dismiss()
-        print(text)
+        self.userModel = text
 
     def save(self):
 
@@ -63,13 +66,15 @@ class Park_n_Go(MDApp):
         name = self.screen.get_screen('mainscreen').ids.name
         phno = self.screen.get_screen('mainscreen').ids.phno
 
-        sql = "INSERT INTO Parking (Reg_no, Name, Phone_no) VALUES (%s, %s, %s)"
-        val = (regNo.text, name.text, phno.text)
+        # MySQL queries to save data
+        sql = "INSERT INTO Parking (Reg_no, Name, Phone_no, Vehicle_mode, Entry_Time) VALUES (%s, %s, %s, %s, %s)"
+        val = (regNo.text, name.text, phno.text, self.userModel, self.entryTime)
 
         mycursor.execute(sql, val)
         mydb.commit()
 
-        print(regNo.text, name.text, phno.text)
+        # print(regNo.text, name.text, phno.text, self.userModel, self.entryTime)
+
         print("Saved to Database")
 
     def DownloadReceipt(self):
@@ -108,8 +113,8 @@ class Park_n_Go(MDApp):
         print("Data saved to database")
 
     def get_time(self, instance, time):
-        print(time)
-
+        time = time.strftime("%H:%M:%S")
+        self.entryTime = time
 
 if __name__ == "__main__":
     LabelBase.register(
