@@ -84,10 +84,29 @@ class Park_n_Go(MDApp):
         print("Served receipt data to Screen")
 
     def auth(self):
-        print("Passed Authentication")
-        print(self.screen.get_screen('login').ids.text1.text)
-        print(self.screen.get_screen('login').ids.passw.text)
 
+        # Fetching from Frontend
+        user = self.screen.get_screen('login').ids.text1.text
+        pwd = self.screen.get_screen('login').ids.passw.text
+        print(user, pwd)
+
+        # Fetch Admin Data from DB
+        sql = "select * from admin"
+        mycursor.execute(sql)
+        res = mycursor.fetchall()
+        userID = res[0][0]
+        password = res[0][1]
+        print(userID)
+        print(password)
+ 
+        # Validation
+        if pwd == password and int(user) == userID:
+            self.root.transition.direction="left"
+            self.root.current="register"
+            print("Passed Authentication")
+        else:
+            print("INVALID PASSWORD")
+            
     #     self.dialog = MDDialog(
     #     text="Invalid Username or Pass",
     #     buttons=[
