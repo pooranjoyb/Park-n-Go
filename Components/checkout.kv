@@ -1,0 +1,61 @@
+#:kivy 1.0
+<Checkout>:
+    name: "checkout"
+    MDFloatLayout:
+        md_bg_color: 1,1,1,1
+        MDIconButton:
+            icon: "arrow-left"
+            pos_hint: {"center_y": .95}
+            user_font_size: "30sp"
+            theme_text_color: "Custom"
+            text_color: rgba(26, 24, 58, 255)
+            on_release:
+                app.root.transition.direction="right"
+                app.root.current = "register"
+        MDLabel:
+            text:"CHECKOUT : "
+            font_name: "MPoppins"
+            font_size: "26sp"
+            pos_hint: {"center_x": .6, "center_y": .85}
+            color:rgba(0, 0, 59, 255)
+
+        MDLabel:
+            text:"Checkout All Your Records In One Tap"
+            font_name: "MPoppins"
+            font_size: "20sp"
+            pos_hint: {"center_x":.6, "center_y": .79}
+            color:rgba(135, 133, 193, 255)
+
+        MDRelativeLayout:
+            size_hint_x: None
+            width: "300dp"
+            size_hint: 1.02, .07
+            pos_hint: {"center_x": .5, "center_y": .63}
+            size_hint_y: None
+            height: regno.height
+
+            MDTextField:
+                id: regno
+                hint_text: "Enter Registration Number"
+                helper_text: "User ID minimum 8 characters"
+                helper_text_mode: "on_error"
+                pos_hint: {"center_x": .5, "center_y": .67}
+                size_hint_x: .78
+                min_text_length: 5
+                icon_left: "account"
+
+        
+        Button:
+            text: "Checkout"
+            size_hint: .66, .065
+            pos_hint:{"center_x": .5,"center_y": .35}
+            background_color:0, 0, 0, 0
+            on_release:
+                app.checkout()
+            canvas.before:
+                Color:
+                    rgb: rgba(52, 0, 231, 255)
+                RoundedRectangle:
+                    size: self.size
+                    pos:self.pos
+                    radius:[5]

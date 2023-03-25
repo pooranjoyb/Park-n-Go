@@ -57,3 +57,18 @@
                     size: self.size
                     pos:self.pos
                     radius:[5]
+        Button:
+            text: "CHECKOUT"
+            size_hint: .66, .065
+            pos_hint:{"center_x": .5,"center_y": .35}
+            background_color:0, 0, 0, 0
+            on_release:
+                app.root.transition.direction="left"
+                app.root.current="checkout"
+            canvas.before:
+                Color:
+                    rgb: rgba(52, 0, 231, 255)
+                RoundedRectangle:
+                    size: self.size
+                    pos:self.pos
+                    radius:[5]
