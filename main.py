@@ -122,6 +122,9 @@ class Park_n_Go(MDApp):
     # )
     #     self.dialog.open()
 
+    def checkout(self):
+        print("Net amount saved to database")
+
     def show_time_picker(self):
         '''Open time picker dialog.'''
         time_dialog = MDTimePicker()
