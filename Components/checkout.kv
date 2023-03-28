@@ -20,7 +20,7 @@
             color:rgba(0, 0, 59, 255)
 
         MDLabel:
-            text:"Checkout All Your Records In One Tap"
+            text:"Checkout In One Tap"
             font_name: "MPoppins"
             font_size: "20sp"
             pos_hint: {"center_x":.6, "center_y": .79}
@@ -44,6 +44,22 @@
                 min_text_length: 5
                 icon_left: "account"
 
+
+        MDFloatLayout:
+            MDLabel:
+                text:"Select time of entry : "
+                font_name: "MPoppins"
+                font_size: "18sp"
+                pos_hint: {"center_x": .6, "center_y": .55}
+                color:rgba(160,179,191, 255)
+
+            MDRaisedButton:
+                text: "Open time picker"
+                pos_hint: {'center_x': .65, 'center_y': .55}
+                on_release: app.show_time_picker()
+                canvas.before:
+                    Color:
+                        rgb: rgba(52, 0, 231, 255)
         
         Button:
             text: "Checkout"
