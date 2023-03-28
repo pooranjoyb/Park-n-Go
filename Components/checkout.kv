@@ -44,18 +44,30 @@
                 min_text_length: 5
                 icon_left: "account"
 
+        MDFloatLayout:
+            MDLabel:
+                text:"Select Car Model : "
+                font_name: "MPoppins"
+                font_size: "18sp"
+                pos_hint: {"center_x": .6, "center_y": .55}
+                color:rgba(160,179,191, 255)
+            MDRaisedButton:
+                id: drop
+                text: "Click To Select  "
+                pos_hint: {"center_x": .65, "center_y": .55}
+                on_release: app.menu.open()
 
         MDFloatLayout:
             MDLabel:
                 text:"Select time of Exit : "
                 font_name: "MPoppins"
                 font_size: "18sp"
-                pos_hint: {"center_x": .6, "center_y": .55}
+                pos_hint: {"center_x": .6, "center_y": .45}
                 color:rgba(160,179,191, 255)
 
             MDRaisedButton:
                 text: "Open time picker"
-                pos_hint: {'center_x': .65, 'center_y': .55}
+                pos_hint: {'center_x': .65, 'center_y': .45}
                 on_release: app.show_time_picker()
                 canvas.before:
                     Color:
@@ -64,7 +76,7 @@
         Button:
             text: "Checkout"
             size_hint: .66, .065
-            pos_hint:{"center_x": .5,"center_y": .35}
+            pos_hint:{"center_x": .5,"center_y": .25}
             background_color:0, 0, 0, 0
             on_release:
                 app.checkout()
