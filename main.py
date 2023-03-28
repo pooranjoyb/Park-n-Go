@@ -68,7 +68,8 @@ class Park_n_Go(MDApp):
 
         # MySQL queries to save data
         sql = "INSERT INTO Parking (Reg_no, Name, Phone_no, Vehicle_mode, Entry_Time) VALUES (%s, %s, %s, %s, %s)"
-        val = (regNo.text, name.text, phno.text, self.userModel, self.entryTime)
+        val = (regNo.text, name.text, phno.text,
+               self.userModel, self.entryTime)
 
         mycursor.execute(sql, val)
         mydb.commit()
@@ -98,27 +99,39 @@ class Park_n_Go(MDApp):
         password = res[0][1]
         print(userID)
         print(password)
- 
+
         # Validation
         if pwd == password and int(user) == userID:
-            self.root.transition.direction="left"
-            self.root.current="register"
+            self.root.transition.direction = "left"
+            self.root.current = "register"
             print("Passed Authentication")
         else:
-            # print("INVALID PASSWORD")     
+            # print("INVALID PASSWORD")
             self.dialog = MDDialog(
-            text="Invalid Username or Password",
-            buttons=[
-                MDFlatButton(
-                    text="Try Again",
-                    on_release=lambda _: self.dialog.dismiss()
-                ),
-            ],
-        )
+                text="Invalid Username or Password",
+                buttons=[
+                    MDFlatButton(
+                        text="Try Again",
+                        on_release=lambda _: self.dialog.dismiss()
+                    ),
+                ],
+            )
             self.dialog.open()
 
     def checkout(self):
-        print("Net amount saved to database")
+
+        # Fetching Checkout Data Frontend
+        regno = self.screen.get_screen('checkout').ids.regno
+        print(regno.text, self.entryTime, self.userModel)
+
+        # MySQL queries to save checkout details
+        sql = "INSERT INTO Net_Amount (Reg_no, Checkout_time) VALUES (%s, %s)"
+        val = (regno.text, self.entryTime)
+
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        print("Net_amount data saved to database")
 
     def show_time_picker(self):
         '''Open time picker dialog.'''
@@ -132,6 +145,7 @@ class Park_n_Go(MDApp):
     def get_time(self, instance, time):
         time = time.strftime("%H:%M:%S")
         self.entryTime = time
+
 
 if __name__ == "__main__":
     LabelBase.register(
