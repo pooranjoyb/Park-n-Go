@@ -124,14 +124,32 @@ class Park_n_Go(MDApp):
         regno = self.screen.get_screen('checkout').ids.regno
         print(regno.text, self.entryTime, self.userModel)
 
-        # MySQL queries to save checkout details
-        sql = "INSERT INTO Net_Amount (Reg_no, Checkout_time) VALUES (%s, %s)"
-        val = (regno.text, self.entryTime)
+        # Calculate the tax
+        sql = "select Reg_no from Parking"
+        mycursor.execute(sql)
+        records = mycursor.fetchall()
+        records = [item for t in records for item in t]
+        
+        #Checking if the Vehicle is inside the parking area or not.
 
-        mycursor.execute(sql, val)
-        mydb.commit()
+        if regno.text not in records:
+            print("Vehicle not present inside the Parking slot")
+        else:
+            print("Vehicle found inside Parking slot, checking out...")
+            sql = "SELECT Entry_Time from Parking where Reg_no = %s"
+            inputuser = (f"{regno.text}",)
+            mycursor.execute(sql, inputuser)
+            time = mycursor.fetchall()
+            print(time)
 
-        print("Net_amount data saved to database")
+        # # MySQL queries to save checkout details
+        # sql = "INSERT INTO Net_Amount (Reg_no, Checkout_time) VALUES (%s, %s)"
+        # val = (regno.text, self.entryTime)
+
+        # mycursor.execute(sql, val)
+        # mydb.commit()
+
+        # print("Net_amount data saved to database")
 
     def show_time_picker(self):
         '''Open time picker dialog.'''
