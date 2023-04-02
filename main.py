@@ -159,6 +159,10 @@ class Park_n_Go(MDApp):
             # Calculating total Time spent in Parking Slot
             totalTime  = str(Checkout_time - FetchedEntryTime)
             
+            # If Checked Out Next Day
+            if totalTime[0] == '-':
+                totalTime = (totalTime.split("-1 day, "))[1]
+
             # Converting totalTime in terms of Hours 
             hours, minutes, seconds = map(int, totalTime.split(':'))
             total_hours = hours + minutes / 60 + seconds / 3600
