@@ -10,6 +10,7 @@ import mysql.connector as ms
 from dotenv import load_dotenv
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
+from datetime import timedelta
 
 load_dotenv()
 USER = os.getenv('USER')
@@ -74,8 +75,7 @@ class Park_n_Go(MDApp):
         mycursor.execute(sql, val)
         mydb.commit()
 
-        # print(regNo.text, name.text, phno.text, self.userModel, self.entryTime)
-
+        # Dialog Box has to be inserted here
         print("Saved to Database")
 
     def DownloadReceipt(self):
@@ -122,34 +122,79 @@ class Park_n_Go(MDApp):
 
         # Fetching Checkout Data Frontend
         regno = self.screen.get_screen('checkout').ids.regno
-        print(regno.text, self.entryTime, self.userModel)
+        print(regno.text, self.entryTime)
 
-        # Calculate the tax
+        # Fetching Data
         sql = "select Reg_no from Parking"
         mycursor.execute(sql)
         records = mycursor.fetchall()
         records = [item for t in records for item in t]
         
         #Checking if the Vehicle is inside the parking area or not.
-
         if regno.text not in records:
+            # Need to Add Dialog Box here
             print("Vehicle not present inside the Parking slot")
         else:
             print("Vehicle found inside Parking slot, checking out...")
+
+            # Fetching Entry Time from Database
             sql = "SELECT Entry_Time from Parking where Reg_no = %s"
             inputuser = (f"{regno.text}",)
             mycursor.execute(sql, inputuser)
             time = mycursor.fetchall()
-            print(time)
+            entryTime_from_db = str(time[0][0])
 
-        # # MySQL queries to save checkout details
-        # sql = "INSERT INTO Net_Amount (Reg_no, Checkout_time) VALUES (%s, %s)"
-        # val = (regno.text, self.entryTime)
+            # Fetching Vehicle Model from Database
+            sql = "SELECT Vehicle_mode from Parking where Reg_no = %s"
+            inputuser = (f"{regno.text}",)
+            mycursor.execute(sql, inputuser)
+            model = mycursor.fetchall()
+            model = str(model[0][0])
 
-        # mycursor.execute(sql, val)
-        # mydb.commit()
+            # Calculating Total Time in hh:mm
+            FetchedEntryTime = timedelta(hours=int(entryTime_from_db[:2]), minutes=int(entryTime_from_db[3:5]), seconds=int(entryTime_from_db[6:]))
 
-        # print("Net_amount data saved to database")
+            Checkout_time = timedelta(hours=int(self.entryTime[:2]), minutes=int(self.entryTime[3:5]), seconds=int(self.entryTime[6:]))
+
+            # Calculating total Time spent in Parking Slot
+            totalTime  = str(Checkout_time - FetchedEntryTime)
+            
+            # Converting totalTime in terms of Hours 
+            hours, minutes, seconds = map(int, totalTime.split(':'))
+            total_hours = hours + minutes / 60 + seconds / 3600
+
+            # Setting Tax as per Vehicle
+            if model == 'Light Vehicle':
+                # 20 Rrupees per Hour
+                Amount = total_hours * 20.0
+            elif model == 'Heavy Vehicle':
+                # 30 Rrupees per Hour
+                Amount = total_hours * 30.0
+            elif model == 'Bicycle':
+                # 8 Rrupees per Hour
+                Amount = total_hours * 8.0
+            elif model == 'Three Vehicle':
+                # 15 Rrupees per Hour
+                Amount = total_hours * 15.0
+            else:
+                # By default it is light vehicle
+                Amount = total_hours * 20.0
+
+            # MySQL queries to save checkout details
+            sql = "INSERT INTO Net_Amount (Reg_no, Checkin_time, Checkout_time, Vehicle_mode, Amount) VALUES (%s, %s, %s, %s, %s)"
+            val = (regno.text, str(FetchedEntryTime), str(Checkout_time),model, Amount)
+
+            mycursor.execute(sql, val)
+            mydb.commit()
+
+            # MySQL queries to remove vehicle from parking slot when checked out
+            sql = "DELETE FROM Parking where Reg_no = %s"
+            inputuser = (f"{regno.text}",)
+            mycursor.execute(sql, inputuser)
+            mydb.commit()
+
+            # Dialog box has to be added here
+            print("Net_amount data saved to database")
 
     def show_time_picker(self):
         '''Open time picker dialog.'''
