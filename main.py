@@ -79,10 +79,57 @@ class Park_n_Go(MDApp):
         print("Saved to Database")
 
     def DownloadReceipt(self):
+
+        # MySQL queries to remove vehicle from parking slot when receipt is downloaded
+        regno = self.screen.get_screen('billing').ids.text1
+        sql = "DELETE FROM Parking where Reg_no = %s"
+        inputuser = (f"{regno.text}",)
+        mycursor.execute(sql, inputuser)
+        mydb.commit()
+
         print("Downloadeded Receipt")
 
     def showReceipt(self):
-        print("Served receipt data to Screen")
+        user = self.screen.get_screen('billing').ids.text1
+
+        if user.text == "":
+            print("Enter the Registration Number")
+            
+        else:
+            self.root.transition.direction = "left"
+            self.root.current = "receipt"
+
+            # Fetching UserData from Database
+            sql1 = "SELECT * from Net_Amount where Reg_no = %s"
+            inputuser = (f"{user.text}",)
+            mycursor.execute(sql1, inputuser)
+            data = mycursor.fetchall()
+
+            # Fetching Name & Phone Number from Database
+            sql2 = "SELECT * from Parking where Reg_no = %s"
+            inputuser = (f"{user.text}",)
+            mycursor.execute(sql2, inputuser)
+            data1 = mycursor.fetchall()
+            
+            # Get ids from to Receipt Screen
+            name = self.screen.get_screen('receipt').ids.name
+            phone = self.screen.get_screen('receipt').ids.phone
+            registration = self.screen.get_screen('receipt').ids.regNo
+            check_in = self.screen.get_screen('receipt').ids.entryTime
+            check_out = self.screen.get_screen('receipt').ids.exitTime
+            car_mode = self.screen.get_screen('receipt').ids.car
+            Amount = self.screen.get_screen('receipt').ids.amount
+
+            # Render Data back to Receipt Screen
+            name.text = data1[0][1]
+            phone.text = data1[0][2]
+            registration.text = data[0][0]
+            check_in.text = str(data[0][1])
+            check_out.text = str(data[0][2])
+            car_mode.text = data[0][3]
+            Amount.text = str(data[0][4])
+
+            print("Served receipt data to Screen")
 
     def auth(self):
 
@@ -189,12 +236,6 @@ class Park_n_Go(MDApp):
             val = (regno.text, str(FetchedEntryTime), str(Checkout_time),model, Amount)
 
             mycursor.execute(sql, val)
-            mydb.commit()
-
-            # MySQL queries to remove vehicle from parking slot when checked out
-            sql = "DELETE FROM Parking where Reg_no = %s"
-            inputuser = (f"{regno.text}",)
-            mycursor.execute(sql, inputuser)
             mydb.commit()
 
             # Dialog box has to be added here
