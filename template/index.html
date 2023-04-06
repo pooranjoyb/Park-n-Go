@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <style>
+        @media only screen and (min-width:1240px) {
+            * {
+                padding: 0;
+                margin: 0;
+            }
+
+            #top {
+                background-color: black;
+                position: relative;
+            }
+
+            #img {
+                margin-left: 10%;
+            }
+
+            .vl {
+                position: absolute;
+                margin-left: 40%;
+                margin-top: 50px;
+                border-left: 4px solid white;
+                height: 70px;
+            }
+
+            .top_p_1 {
+                position: absolute;
+                color: white;
+                margin-left: 60%;
+                margin-top: 40px;
+            }
+
+            .top_p_2 {
+                position: absolute;
+                color: white;
+                margin-left: 60%;
+                margin-top: 70px;
+            }
+
+            .top_p_3 {
+                position: absolute;
+                color: white;
+                margin-left: 60%;
+                margin-top: 100px;
+            }
+
+            #main_1 {
+                margin-left: 10%;
+                margin-top: 4%;
+                position: relative;
+                margin-bottom: 40px;
+            }
+
+            #invoice {
+                font-size: 20px;
+            }
+
+            #name {
+                margin-top: 8px;
+                margin-bottom: 8px;
+                font-size: 40px;
+            }
+
+            #address {
+                margin-bottom: 4px;
+                font-size: 20px;
+            }
+
+            #email {
+                font-size: 20px;
+            }
+
+            #phone {
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            #park_n_go {
+                font-size: 20px;
+                position: absolute;
+                margin-left: 80%;
+            }
+
+            #all_right_res {
+                font-size: 20px;
+                position: absolute;
+                margin-left: 80%;
+                margin-top: 35px;
+            }
+
+            #hr {
+                height: 4px;
+                background: black;
+                margin-left: 10%;
+                margin-right: 7%;
+            }
+
+            #main_2 {
+                position: relative;
+            }
+
+            #total {
+                display: block;
+                margin-top: 200px;
+                margin-left: 70%;
+            }
+
+            #bill {
+                margin-top: 200px;
+                margin-left: 90%;
+                position: absolute;
+            }
+
+            .grid-container {
+                margin-left: 10%;
+                margin-right: 7%;
+                display: grid;
+                grid-template-columns: auto auto auto auto;
+            }
+
+            .grid-item {
+                text-align: justify;
+            }
+
+            .mainss {
+                font-size: 20px;
+                line-height: 90px;
+            }
+
+            .mainss_2 {
+                font-size: 20px;
+            }
+
+            #fotter {
+                position: relative;
+                margin-top: 3%;
+                font-size: 25px;
+                margin-left: 10%;
+            }
+
+            #bankname {
+                position: absolute;
+                margin-left: 20%;
+            }
+
+            #bankaccount {
+                position: absolute;
+                margin-left: 20%;
+                margin-top: 55px;
+            }
+
+            #Drew {
+                font-size: 40PX;
+                margin-left: 82%;
+            }
+
+            #ceo {
+                margin-left: 82%;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="top">
+        <p class="top_p_1">+91 1234567890</p>
+        <p class="top_p_2">parkngo@hotmail.com</p>
+        <p class="top_p_3">SMIT, Sikkim</p>
+        <div class="vl"></div>
+        <img id="img" src="./icon.jpg" height="150px" width="200px">
+    </div>
+    <div id="main_1">
+        <p id="park_n_go">Park-N-Go</p>
+        <p id="all_right_res">All rights reserved</p>
+        <p id="invoice">This invoice is for:</p>
+        <b>
+            <p id="name">Name</p>
+        </b>
+        <p id="address">123 Anywhere St., Any City, ST 12345</p>
+        <p id="email">hello@reallygreatsite.com</p>
+        <b>
+            <p id="phone">+123-456-7890</p>
+        </b>
+    </div>
+    <hr id="hr">
+    <div id="main_2">
+        <div class="grid-container">
+            <div class="grid-item">
+                <b>
+                    <p class="mainss">REGISTRATION</p>
+                </b>
+                <p class="mainss_2">AS23C756</p>
+            </div>
+            <div class="grid-item">
+                <b>
+                    <p class="mainss">TIME OF ENTRY</p>
+                </b>
+                <p class="mainss_2">12:00:00</p>
+            </div>
+            <div class="grid-item">
+                <b>
+                    <p class="mainss">TIME OF EXIT</p>
+                </b>
+                <p class="mainss_2">14:00:00</p>
+            </div>
+            <div class="grid-item">
+                <b>
+                    <p class="mainss">VEHICLE</p>
+                </b>
+                <p class="mainss_2">Light Vehicle</p>
+            </div>
+        </div>
+        <h2 id="bill">500</h2>
+        <h2 id="total">Total</h2>
+    </div>
+    <hr id="hr">
+    <div id="fotter">
+        <p id="bankname">Claudia Alves</p>
+        <p id="bankaccount">123 456 7890</p>
+        <b>
+            <p>Bank Name</p>
+        </b>
+        <br>
+        <b>
+            <p>Bank Account</p>
+        </b>
+        <b>
+            <p id="Drew">Drew Feig</p>
+        </b>
+        <p id="ceo">CEO of Borcelle Company</p>
+    </div>
+</body>
+
+</html>
