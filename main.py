@@ -37,6 +37,7 @@ class WindowManager(ScreenManager):
 
 
 class Park_n_Go(MDApp):
+
     def build(self):
 
         self.userModel = ""
@@ -56,6 +57,30 @@ class Park_n_Go(MDApp):
         )
         return self.screen
 
+    def create_dialog(self, message):
+        self.dialog = MDDialog(
+                text=message,
+                buttons=[
+                    MDFlatButton(
+                        text="Try Again",
+                        on_release=lambda _: self.dialog.dismiss()
+                    ),
+                ],
+            )
+        self.dialog.open()
+
+    def success_dialog(self, message):
+        self.dialog = MDDialog(
+                text=message,
+                buttons=[
+                    MDFlatButton(
+                        text="Okay",
+                        on_release=lambda _: self.dialog.dismiss()
+                    ),
+                ],
+            )
+        self.dialog.open()
+
     def display_text(self, text):
         self.menu.dismiss()
         self.userModel = text
@@ -66,17 +91,17 @@ class Park_n_Go(MDApp):
         regNo = self.screen.get_screen('mainscreen').ids.regNo
         name = self.screen.get_screen('mainscreen').ids.name
         phno = self.screen.get_screen('mainscreen').ids.phno
+        val = (regNo.text, name.text, phno.text, self.userModel, self.entryTime)
+        truth = not all(val)
 
-        # MySQL queries to save data
-        sql = "INSERT INTO Parking (Reg_no, Name, Phone_no, Vehicle_mode, Entry_Time) VALUES (%s, %s, %s, %s, %s)"
-        val = (regNo.text, name.text, phno.text,
-               self.userModel, self.entryTime)
+        if (not truth):
+            sql = "INSERT INTO Parking (Reg_no, Name, Phone_no, Vehicle_mode, Entry_Time) VALUES (%s, %s, %s, %s, %s)"
+            mycursor.execute(sql, val)
+            mydb.commit()
 
-        mycursor.execute(sql, val)
-        mydb.commit()
-
-        # Dialog Box has to be inserted here
-        print("Saved to Database")
+            self.success_dialog('Saved to Database')
+        else:
+            self.create_dialog('Fields cannot be empty!')
 
     def DownloadReceipt(self):
 
@@ -93,7 +118,7 @@ class Park_n_Go(MDApp):
         user = self.screen.get_screen('billing').ids.text1
 
         if user.text == "":
-            print("Enter the Registration Number")
+            self.create_dialog("Enter the Registration number to Continue")
             
         else:
             self.root.transition.direction = "left"
@@ -136,7 +161,6 @@ class Park_n_Go(MDApp):
         # Fetching from Frontend
         user = self.screen.get_screen('login').ids.text1.text
         pwd = self.screen.get_screen('login').ids.passw.text
-        print(user, pwd)
 
         # Fetch Admin Data from DB
         sql = "select * from admin"
@@ -144,8 +168,6 @@ class Park_n_Go(MDApp):
         res = mycursor.fetchall()
         userID = res[0][0]
         password = res[0][1]
-        print(userID)
-        print(password)
 
         # Validation
         if pwd == password and int(user) == userID:
@@ -153,93 +175,88 @@ class Park_n_Go(MDApp):
             self.root.current = "register"
             print("Passed Authentication")
         else:
-            # print("INVALID PASSWORD")
-            self.dialog = MDDialog(
-                text="Invalid Username or Password",
-                buttons=[
-                    MDFlatButton(
-                        text="Try Again",
-                        on_release=lambda _: self.dialog.dismiss()
-                    ),
-                ],
-            )
-            self.dialog.open()
+            self.create_dialog(message='Invalid username or password')
 
     def checkout(self):
-
+        
         # Fetching Checkout Data Frontend
         regno = self.screen.get_screen('checkout').ids.regno
         print(regno.text, self.entryTime)
-
-        # Fetching Data
-        sql = "select Reg_no from Parking"
-        mycursor.execute(sql)
-        records = mycursor.fetchall()
-        records = [item for t in records for item in t]
-        
-        #Checking if the Vehicle is inside the parking area or not.
-        if regno.text not in records:
-            # Need to Add Dialog Box here
-            print("Vehicle not present inside the Parking slot")
+        if regno.text == "":
+            self.create_dialog("Enter the Registration number to Continue")
         else:
-            print("Vehicle found inside Parking slot, checking out...")
-
-            # Fetching Entry Time from Database
-            sql = "SELECT Entry_Time from Parking where Reg_no = %s"
-            inputuser = (f"{regno.text}",)
-            mycursor.execute(sql, inputuser)
-            time = mycursor.fetchall()
-            entryTime_from_db = str(time[0][0])
-
-            # Fetching Vehicle Model from Database
-            sql = "SELECT Vehicle_mode from Parking where Reg_no = %s"
-            inputuser = (f"{regno.text}",)
-            mycursor.execute(sql, inputuser)
-            model = mycursor.fetchall()
-            model = str(model[0][0])
-
-            # Calculating Total Time in hh:mm
-            FetchedEntryTime = timedelta(hours=int(entryTime_from_db[:2]), minutes=int(entryTime_from_db[3:5]), seconds=int(entryTime_from_db[6:]))
-
-            Checkout_time = timedelta(hours=int(self.entryTime[:2]), minutes=int(self.entryTime[3:5]), seconds=int(self.entryTime[6:]))
-
-            # Calculating total Time spent in Parking Slot
-            totalTime  = str(Checkout_time - FetchedEntryTime)
+            # Fetching Data
+            sql = "select Reg_no from Parking"
+            mycursor.execute(sql)
+            records = mycursor.fetchall()
+            records = [item for t in records for item in t]
             
-            # If Checked Out Next Day
-            if totalTime[0] == '-':
-                totalTime = (totalTime.split("-1 day, "))[1]
-
-            # Converting totalTime in terms of Hours 
-            hours, minutes, seconds = map(int, totalTime.split(':'))
-            total_hours = hours + minutes / 60 + seconds / 3600
-
-            # Setting Tax as per Vehicle
-            if model == 'Light Vehicle':
-                # 20 Rrupees per Hour
-                Amount = total_hours * 20.0
-            elif model == 'Heavy Vehicle':
-                # 30 Rrupees per Hour
-                Amount = total_hours * 30.0
-            elif model == 'Bicycle':
-                # 8 Rrupees per Hour
-                Amount = total_hours * 8.0
-            elif model == 'Three Vehicle':
-                # 15 Rrupees per Hour
-                Amount = total_hours * 15.0
+            #Checking if the Vehicle is inside the parking area or not.
+            if regno.text not in records:
+                
+                self.create_dialog('Vehicle not present inside the Parking slot')
             else:
-                # By default it is light vehicle
-                Amount = total_hours * 20.0
 
-            # MySQL queries to save checkout details
-            sql = "INSERT INTO Net_Amount (Reg_no, Checkin_time, Checkout_time, Vehicle_mode, Amount) VALUES (%s, %s, %s, %s, %s)"
-            val = (regno.text, str(FetchedEntryTime), str(Checkout_time),model, Amount)
+                # Fetching Entry Time from Database
+                sql = "SELECT Entry_Time from Parking where Reg_no = %s"
+                inputuser = (f"{regno.text}",)
+                mycursor.execute(sql, inputuser)
+                time = mycursor.fetchall()
+                entryTime_from_db = str(time[0][0])
 
-            mycursor.execute(sql, val)
-            mydb.commit()
+                # Fetching Vehicle Model from Database
+                sql = "SELECT Vehicle_mode from Parking where Reg_no = %s"
+                inputuser = (f"{regno.text}",)
+                mycursor.execute(sql, inputuser)
+                model = mycursor.fetchall()
+                model = str(model[0][0])
 
-            # Dialog box has to be added here
-            print("Net_amount data saved to database")
+                if(len(entryTime_from_db)==7):
+                    entryTime_from_db = '0'+entryTime_from_db
+
+                # Calculating Total Time in hh:mm
+                FetchedEntryTime = timedelta(hours=int(entryTime_from_db[:2]), minutes=int(entryTime_from_db[3:5]), seconds=int(entryTime_from_db[6:]))
+
+                Checkout_time = timedelta(hours=int(self.entryTime[:2]), minutes=int(self.entryTime[3:5]), seconds=int(self.entryTime[6:]))
+
+                # Calculating total Time spent in Parking Slot
+                totalTime  = str(Checkout_time - FetchedEntryTime)
+                
+                # If Checked Out Next Day
+                if totalTime[0] == '-':
+                    totalTime = (totalTime.split("-1 day, "))[1]
+
+                # Converting totalTime in terms of Hours 
+                hours, minutes, seconds = map(int, totalTime.split(':'))
+                total_hours = hours + minutes / 60 + seconds / 3600
+
+                # Setting Tax as per Vehicle
+                if model == 'Light Vehicle':
+                    # 20 Rrupees per Hour
+                    Amount = total_hours * 20.0
+                elif model == 'Heavy Vehicle':
+                    # 30 Rrupees per Hour
+                    Amount = total_hours * 30.0
+                elif model == 'Bicycle':
+                    # 8 Rrupees per Hour
+                    Amount = total_hours * 8.0
+                elif model == 'Three wheeler':
+                    # 15 Rrupees per Hour
+                    Amount = total_hours * 15.0
+                else:
+                    # By default it is light vehicle
+                    Amount = total_hours * 20.0
+
+                # MySQL queries to save checkout details
+                sql = "INSERT INTO Net_Amount (Reg_no, Checkin_time, Checkout_time, Vehicle_mode, Amount) VALUES (%s, %s, %s, %s, %s)"
+                val = (regno.text, str(FetchedEntryTime), str(Checkout_time),model, Amount)
+
+                mycursor.execute(sql, val)
+                mydb.commit()
+
+                self.root.transition.direction="left"
+                self.root.current="billing"
+                print("Net_amount data saved to database")
 
     def show_time_picker(self):
         '''Open time picker dialog.'''
