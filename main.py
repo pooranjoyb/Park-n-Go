@@ -57,6 +57,20 @@ class Park_n_Go(MDApp):
         )
         return self.screen
 
+    def get_info(self, user):
+        # Fetching UserData from Database
+        sql1 = "SELECT * from Net_Amount where Reg_no = %s"
+        inputuser = (f"{user.text}",)
+        mycursor.execute(sql1, inputuser)
+        data = mycursor.fetchall()
+
+        # Fetching Name & Phone Number from Database
+        sql2 = "SELECT * from Parking where Reg_no = %s"
+        inputuser = (f"{user.text}",)
+        mycursor.execute(sql2, inputuser)
+        data1 = mycursor.fetchall()
+        return (data, data1)
+
     def create_dialog(self, message):
         self.dialog = MDDialog(
                 text=message,
@@ -107,12 +121,13 @@ class Park_n_Go(MDApp):
 
         # MySQL queries to remove vehicle from parking slot when receipt is downloaded
         regno = self.screen.get_screen('billing').ids.text1
+        data, data1 = self.get_info(regno)
         sql = "DELETE FROM Parking where Reg_no = %s"
         inputuser = (f"{regno.text}",)
+        
         mycursor.execute(sql, inputuser)
         mydb.commit()
-
-        print("Downloadeded Receipt")
+        print("Downloadeded Receipt", data, data1)
 
     def showReceipt(self):
         user = self.screen.get_screen('billing').ids.text1
@@ -124,17 +139,7 @@ class Park_n_Go(MDApp):
             self.root.transition.direction = "left"
             self.root.current = "receipt"
 
-            # Fetching UserData from Database
-            sql1 = "SELECT * from Net_Amount where Reg_no = %s"
-            inputuser = (f"{user.text}",)
-            mycursor.execute(sql1, inputuser)
-            data = mycursor.fetchall()
-
-            # Fetching Name & Phone Number from Database
-            sql2 = "SELECT * from Parking where Reg_no = %s"
-            inputuser = (f"{user.text}",)
-            mycursor.execute(sql2, inputuser)
-            data1 = mycursor.fetchall()
+            data, data1 = self.get_info(user)
             
             # Get ids from to Receipt Screen
             name = self.screen.get_screen('receipt').ids.name
