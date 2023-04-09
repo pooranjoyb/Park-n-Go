@@ -48,8 +48,8 @@ class Park_n_Go(MDApp):
                       {"text": "Heavy Vehicle", "viewclass": "OneLineListItem",
                           "on_release": lambda text="Heavy Vehicle": self.display_text(text)},
                       {"text": "Bicycle", "viewclass": "OneLineListItem",
-                          "on_release": lambda text="Cycle": self.display_text(text)},
-                      {"text": "Three wheeler", "viewclass": "OneLineListItem", "on_release": lambda text="3-Wheeler": self.display_text(text)}]
+                          "on_release": lambda text="Bicycle": self.display_text(text)},
+                      {"text": "Three wheeler", "viewclass": "OneLineListItem", "on_release": lambda text="Three Wheeler": self.display_text(text)}]
         self.menu = MDDropdownMenu(
             caller=self.screen.get_screen('mainscreen').ids.drop,
             items=menu_items,
@@ -96,6 +96,7 @@ class Park_n_Go(MDApp):
         self.dialog.open()
 
     def display_text(self, text):
+        print(text)
         self.menu.dismiss()
         self.userModel = text
 
@@ -106,6 +107,7 @@ class Park_n_Go(MDApp):
         name = self.screen.get_screen('mainscreen').ids.name
         phno = self.screen.get_screen('mainscreen').ids.phno
         val = (regNo.text, name.text, phno.text, self.userModel, self.entryTime)
+        print(self.entryTime)
         truth = not all(val)
 
         if (not truth):
@@ -122,7 +124,7 @@ class Park_n_Go(MDApp):
         # MySQL queries to remove vehicle from parking slot when receipt is downloaded
         regno = self.screen.get_screen('billing').ids.text1
         data, data1 = self.get_info(regno)
-        sql = "DELETE FROM Parking where Reg_no = %s"
+        sql = "DELETE FROM Net_Amount where Reg_no = %s"
         inputuser = (f"{regno.text}",)
         
         mycursor.execute(sql, inputuser)
