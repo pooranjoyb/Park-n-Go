@@ -182,12 +182,12 @@
         <p id="all_right_res">All rights reserved</p>
         <p id="invoice">This invoice is for:</p>
         <b>
-            <p id="name">Name</p>
+            <p id="name">{{ name }}</p>
         </b>
         <p id="address">123 Anywhere St., Any City, ST 12345</p>
         <p id="email">hello@reallygreatsite.com</p>
         <b>
-            <p id="phone">+123-456-7890</p>
+            <p id="phone">{{ phone }}</p>
         </b>
     </div>
     <hr id="hr">
@@ -195,35 +195,35 @@
         <div class="grid-container">
             <div class="grid-item">
                 <b>
-                    <p class="mainss">REGISTRATION</p>
+                    <p class="mainss">Registration</p>
                 </b>
-                <p class="mainss_2">AS23C756</p>
+                <p class="mainss_2">{{ regNo }}</p>
             </div>
             <div class="grid-item">
                 <b>
                     <p class="mainss">TIME OF ENTRY</p>
                 </b>
-                <p class="mainss_2">12:00:00</p>
+                <p class="mainss_2">{{ entryTime }}</p>
             </div>
             <div class="grid-item">
                 <b>
                     <p class="mainss">TIME OF EXIT</p>
                 </b>
-                <p class="mainss_2">14:00:00</p>
+                <p class="mainss_2">{{ exitTime }}</p>
             </div>
             <div class="grid-item">
                 <b>
                     <p class="mainss">VEHICLE</p>
                 </b>
-                <p class="mainss_2">Light Vehicle</p>
+                <p class="mainss_2">{{ car }}</p>
             </div>
         </div>
-        <h2 id="bill">500</h2>
+        <h2 id="bill">{{ amount }}</h2>
         <h2 id="total">Total</h2>
     </div>
     <hr id="hr">
     <div id="fotter">
-        <p id="bankname">Claudia Alves</p>
+        <p id="bankname">State Bank of India</p>
         <p id="bankaccount">123 456 7890</p>
         <b>
             <p>Bank Name</p>
@@ -233,9 +233,9 @@
             <p>Bank Account</p>
         </b>
         <b>
-            <p id="Drew">Drew Feig</p>
+            <p id="Drew">FirstName</p>
         </b>
-        <p id="ceo">CEO of Borcelle Company</p>
+        <p id="ceo">CEO of Park-n-Go Company</p>
     </div>
 </body>
 
