@@ -137,12 +137,21 @@ class Park_n_Go(MDApp):
     def DownloadReceipt(self):
         regno = self.screen.get_screen('billing').ids.text1
         data, data1 = self.get_info(regno)
+
+        # Deleting from Net_Amount
         sql = "DELETE FROM Net_Amount where Reg_no = %s"
         inputuser = (f"{regno.text}",)
-        
         mycursor.execute(sql, inputuser)
         mydb.commit()
+
+        # Sending data to details() to generate the Receipt PDF
         self.details(data, data1)
+
+        # Deleting from Parking
+        sql = "DELETE FROM Parking where Reg_no = %s"
+        mycursor.execute(sql, inputuser)
+        mydb.commit()
+
         # MySQL queries to remove vehicle from parking slot when receipt is downloaded
         print("Downloadeded Receipt", data, data1)
 
