@@ -76,12 +76,12 @@ class Park_n_Go(MDApp):
         print("Start generation")
         env = Environment( loader = FileSystemLoader("template/"))
         template = env.get_template('index.html')
-        filename=f"template/generate_{data[0][1]}.html"
+        filename=f"template/generate_{data1[0][1]}.html"
         print(data, data1)
 
         write = {"name": data1[0][1], "phone": data1[0][2], "regNo": data[0][0],"entryTime": str(data[0][1]), "exitTime": str(data[0][2]), "car": data[0][3], "amount": str(data[0][4])}
         content = template.render(write)
-        with open(file = f"template/generate.html", mode="w", encoding="utf-8") as ticket:
+        with open(file = f"{filename}", mode="w", encoding="utf-8") as ticket:
             ticket.write(content)
 
 
