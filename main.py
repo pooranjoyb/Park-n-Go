@@ -1,4 +1,5 @@
 import os
+from jinja2 import Environment, FileSystemLoader
 from kivy.lang import Builder
 from kivy.core.text import LabelBase
 from kivymd.app import MDApp
@@ -70,6 +71,20 @@ class Park_n_Go(MDApp):
         mycursor.execute(sql2, inputuser)
         data1 = mycursor.fetchall()
         return (data, data1)
+    
+    def details(self, data, data1):
+        print("Start generation")
+        env = Environment( loader = FileSystemLoader("template/"))
+        template = env.get_template('index.html')
+        filename=f"template/generate_{data[0][1]}.html"
+        print(data, data1)
+
+        write = {"name": data1[0][1], "phone": data1[0][2], "regNo": data[0][0],"entryTime": str(data[0][1]), "exitTime": str(data[0][2]), "car": data[0][3], "amount": str(data[0][4])}
+        content = template.render(write)
+        with open(file = f"template/generate.html", mode="w", encoding="utf-8") as ticket:
+            ticket.write(content)
+
+
 
     def create_dialog(self, message):
         self.dialog = MDDialog(
@@ -120,8 +135,6 @@ class Park_n_Go(MDApp):
             self.create_dialog('Fields cannot be empty!')
 
     def DownloadReceipt(self):
-
-        # MySQL queries to remove vehicle from parking slot when receipt is downloaded
         regno = self.screen.get_screen('billing').ids.text1
         data, data1 = self.get_info(regno)
         sql = "DELETE FROM Net_Amount where Reg_no = %s"
@@ -129,6 +142,8 @@ class Park_n_Go(MDApp):
         
         mycursor.execute(sql, inputuser)
         mydb.commit()
+        self.details(data, data1)
+        # MySQL queries to remove vehicle from parking slot when receipt is downloaded
         print("Downloadeded Receipt", data, data1)
 
     def showReceipt(self):
@@ -142,7 +157,7 @@ class Park_n_Go(MDApp):
             self.root.current = "receipt"
 
             data, data1 = self.get_info(user)
-            
+            print(data, data1)
             # Get ids from to Receipt Screen
             name = self.screen.get_screen('receipt').ids.name
             phone = self.screen.get_screen('receipt').ids.phone
