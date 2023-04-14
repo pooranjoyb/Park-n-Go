@@ -271,7 +271,7 @@ class Park_n_Go(MDApp):
                 elif model == 'Bicycle':
                     # 8 Rrupees per Hour
                     Amount = total_hours * 8.0
-                elif model == 'Three wheeler':
+                elif model == 'Three Wheeler':
                     # 15 Rrupees per Hour
                     Amount = total_hours * 15.0
                 else:

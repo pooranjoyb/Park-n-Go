@@ -1,0 +1,15 @@
+# Creating database
+
+create database dbms;
+
+# Creating admin table
+
+create table admin(userid int(20), password varchar(20));
+
+# Creating Parking table
+
+create table Parking (Reg_no varchar(30) primaey key, Name varchar(30), Phone_no varchar(30), Vehicle_mode varchar(30), Entry_Time time);
+
+# Creating the Net_Amount Table
+
+create table Net_Amount(Reg_no varchar(30), Checkin_time time, Checkout_time time, Vehicle_mode varchar(30), Amount varchar(30));
