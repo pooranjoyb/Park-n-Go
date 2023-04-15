@@ -126,11 +126,21 @@ class Park_n_Go(MDApp):
         truth = not all(val)
 
         if (not truth):
-            sql = "INSERT INTO Parking (Reg_no, Name, Phone_no, Vehicle_mode, Entry_Time) VALUES (%s, %s, %s, %s, %s)"
-            mycursor.execute(sql, val)
-            mydb.commit()
+            
+            # Fetching Name & Phone Number from Database
+            fetchingQuery = "SELECT * from Parking where Reg_no = %s"
+            inputuser = (f"{regNo.text}",)
+            mycursor.execute(fetchingQuery, inputuser)
+            fetchedData = mycursor.fetchone()
 
-            self.success_dialog('Saved to Database')
+            if not fetchedData:
+                sql = "INSERT INTO Parking (Reg_no, Name, Phone_no, Vehicle_mode, Entry_Time) VALUES (%s, %s, %s, %s, %s)"
+                mycursor.execute(sql, val)
+                mydb.commit()
+                self.success_dialog('Saved to Database')
+            else:
+                self.create_dialog('Vehicle is already present!')
+
         else:
             self.create_dialog('Fields cannot be empty!')
 
