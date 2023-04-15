@@ -305,8 +305,6 @@ class Park_n_Go(MDApp):
         time_dialog.open()
         time_dialog.bind(on_save=self.get_time)
 
-    def saveTodb(self):
-        print("Data saved to database")
 
     def get_time(self, instance, time):
         time = time.strftime("%H:%M:%S")
