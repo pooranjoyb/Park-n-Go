@@ -13,13 +13,17 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from datetime import timedelta
 
+# Loading .env file
 load_dotenv()
+
+# Initiating database credentials
 USER = os.getenv('USER')
 HOST = os.getenv('HOST')
 DATABASE = os.getenv('DATABASE')
 PASSWORD = os.getenv('PASSWORD')
 PORT = os.getenv('PORT')
 
+# Using Try-Catch to connect with database
 try:
     mydb = ms.connect(host=HOST, user=USER, database=DATABASE,
                       password=PASSWORD, port=PORT)
@@ -27,7 +31,6 @@ try:
     mycursor = mydb.cursor()
 except:
     print("Cannot connect to database")
-
 
 # Set pre defined window size
 Window.size = (600, 600)
@@ -41,21 +44,28 @@ class Park_n_Go(MDApp):
 
     def build(self):
 
+        # Defining global vars
         self.userModel = ""
         self.entryTime = ""
 
+        # Loading assets from Components
         self.screen = Builder.load_file("./Components/main.kv")
+        
+        # Defining items of dropdown box
         menu_items = [{"text": "Light Vehicle", "viewclass": "OneLineListItem", "on_release": lambda text="Light Vehicle": self.display_text(text)},
                       {"text": "Heavy Vehicle", "viewclass": "OneLineListItem",
                           "on_release": lambda text="Heavy Vehicle": self.display_text(text)},
                       {"text": "Bicycle", "viewclass": "OneLineListItem",
                           "on_release": lambda text="Bicycle": self.display_text(text)},
                       {"text": "Three wheeler", "viewclass": "OneLineListItem", "on_release": lambda text="Three Wheeler": self.display_text(text)}]
+        
+        # Creating the Dropdown box
         self.menu = MDDropdownMenu(
             caller=self.screen.get_screen('mainscreen').ids.drop,
             items=menu_items,
             width_mult=4,
         )
+
         return self.screen
 
     def get_info(self, user):
@@ -72,6 +82,7 @@ class Park_n_Go(MDApp):
         data1 = mycursor.fetchall()
         return (data, data1)
     
+    # Generating template 
     def details(self, data, data1):
         print("Start generation")
         env = Environment( loader = FileSystemLoader("template/"))
@@ -79,13 +90,14 @@ class Park_n_Go(MDApp):
         filename=f"template/generate_{data1[0][1]}.html"
         print(data, data1)
 
+        # Writting data to the html template using jinja2
         write = {"name": data1[0][1], "phone": data1[0][2], "regNo": data[0][0],"entryTime": str(data[0][1]), "exitTime": str(data[0][2]), "car": data[0][3], "amount": str(data[0][4])}
         content = template.render(write)
         with open(file = f"{filename}", mode="w", encoding="utf-8") as ticket:
             ticket.write(content)
 
 
-
+    # A dialog box is  created to notify that login is not sucessfull
     def create_dialog(self, message):
         self.dialog = MDDialog(
                 text=message,
@@ -98,6 +110,7 @@ class Park_n_Go(MDApp):
             )
         self.dialog.open()
 
+    # Another dialog box is created to notify that login is sucessfull
     def success_dialog(self, message):
         self.dialog = MDDialog(
                 text=message,
@@ -110,11 +123,13 @@ class Park_n_Go(MDApp):
             )
         self.dialog.open()
 
+    # Displaying text made under build function
     def display_text(self, text):
         print(text)
         self.menu.dismiss()
         self.userModel = text
 
+    # Function to save following inputs in the database
     def save(self):
 
         # Getting input from MainScreen
@@ -123,8 +138,10 @@ class Park_n_Go(MDApp):
         phno = self.screen.get_screen('mainscreen').ids.phno
         val = (regNo.text, name.text, phno.text, self.userModel, self.entryTime)
         print(self.entryTime)
+
         truth = not all(val)
 
+        # Checking if all fields are filled
         if (not truth):
             
             # Fetching Name & Phone Number from Database
@@ -137,13 +154,17 @@ class Park_n_Go(MDApp):
                 sql = "INSERT INTO Parking (Reg_no, Name, Phone_no, Vehicle_mode, Entry_Time) VALUES (%s, %s, %s, %s, %s)"
                 mycursor.execute(sql, val)
                 mydb.commit()
+                # A dialog box is created to notify user that data was saved to database
                 self.success_dialog('Saved to Database')
-            else:
-                self.create_dialog('Vehicle is already present!')
 
+            else:
+                # A another dialog box is created to notify user that the  vehicle selected was already present in the database
+                self.create_dialog('Vehicle is already present!')
         else:
+            # A dialog box is created to notify user that Fields cannot be left empty
             self.create_dialog('Fields cannot be empty!')
 
+    # Fetching details such as regno and data from database
     def DownloadReceipt(self):
         regno = self.screen.get_screen('billing').ids.text1
         data, data1 = self.get_info(regno)
@@ -164,7 +185,8 @@ class Park_n_Go(MDApp):
 
         # MySQL queries to remove vehicle from parking slot when receipt is downloaded
         print("Downloadeded Receipt", data, data1)
-
+    
+    # Rendering data to the app screen
     def showReceipt(self):
         user = self.screen.get_screen('billing').ids.text1
 
@@ -177,6 +199,7 @@ class Park_n_Go(MDApp):
 
             data, data1 = self.get_info(user)
             print(data, data1)
+            
             # Get ids from to Receipt Screen
             name = self.screen.get_screen('receipt').ids.name
             phone = self.screen.get_screen('receipt').ids.phone
@@ -299,18 +322,19 @@ class Park_n_Go(MDApp):
                 self.root.current="billing"
                 print("Net_amount data saved to database")
 
+    # Function to open time-picker
     def show_time_picker(self):
         '''Open time picker dialog.'''
         time_dialog = MDTimePicker()
         time_dialog.open()
         time_dialog.bind(on_save=self.get_time)
 
-
+    # Function to get time and overwrite entryTime in __init__()
     def get_time(self, instance, time):
         time = time.strftime("%H:%M:%S")
         self.entryTime = time
 
-
+# Driver Code
 if __name__ == "__main__":
     LabelBase.register(
         name="MPoppins", fn_regular="assets/fonts/Poppins-Medium.ttf")
