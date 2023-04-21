@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from datetime import timedelta
+import webbrowser
 
 # Loading .env file
 load_dotenv()
@@ -84,6 +85,7 @@ class Park_n_Go(MDApp):
     
     # Generating template 
     def details(self, data, data1):
+        self.dialog.dismiss()
         print("Start generation")
         env = Environment( loader = FileSystemLoader("template/"))
         template = env.get_template('index.html')
@@ -95,6 +97,7 @@ class Park_n_Go(MDApp):
         content = template.render(write)
         with open(file = f"{filename}", mode="w", encoding="utf-8") as ticket:
             ticket.write(content)
+        webbrowser.open('file://' + os.path.realpath(filename))
 
 
     # A dialog box is  created to notify that login is not sucessfull
@@ -111,16 +114,27 @@ class Park_n_Go(MDApp):
         self.dialog.open()
 
     # Another dialog box is created to notify that login is sucessfull
-    def success_dialog(self, message):
-        self.dialog = MDDialog(
-                text=message,
-                buttons=[
-                    MDFlatButton(
-                        text="Okay",
-                        on_release=lambda _: self.dialog.dismiss()
-                    ),
-                ],
-            )
+    def success_dialog(self, message, dismiss=True, data=True, data1=True):
+        if dismiss:
+            self.dialog = MDDialog(
+                    text=message,
+                    buttons=[
+                        MDFlatButton(
+                            text="Okay",
+                            on_release=lambda _: self.dialog.dismiss()
+                        ),
+                    ],
+                )
+        else:
+            self.dialog = MDDialog(
+                    text=message,
+                    buttons=[
+                        MDFlatButton(
+                            text="Okay",
+                            on_release=lambda _: self.details(data, data1)
+                        ),
+                    ],
+                )
         self.dialog.open()
 
     # Displaying text made under build function
@@ -176,7 +190,7 @@ class Park_n_Go(MDApp):
         mydb.commit()
 
         # Sending data to details() to generate the Receipt PDF
-        self.details(data, data1)
+        self.success_dialog('MAKE SURE YOU DOWNLOAD THE PDF!', dismiss=False, data=data, data1=data1)
 
         # Deleting from Parking
         sql = "DELETE FROM Parking where Reg_no = %s"
@@ -194,31 +208,37 @@ class Park_n_Go(MDApp):
             self.create_dialog("Enter the Registration number to Continue")
             
         else:
-            self.root.transition.direction = "left"
-            self.root.current = "receipt"
 
             data, data1 = self.get_info(user)
-            print(data, data1)
-            
-            # Get ids from to Receipt Screen
-            name = self.screen.get_screen('receipt').ids.name
-            phone = self.screen.get_screen('receipt').ids.phone
-            registration = self.screen.get_screen('receipt').ids.regNo
-            check_in = self.screen.get_screen('receipt').ids.entryTime
-            check_out = self.screen.get_screen('receipt').ids.exitTime
-            car_mode = self.screen.get_screen('receipt').ids.car
-            Amount = self.screen.get_screen('receipt').ids.amount
 
-            # Render Data back to Receipt Screen
-            name.text = data1[0][1]
-            phone.text = data1[0][2]
-            registration.text = data[0][0]
-            check_in.text = str(data[0][1])
-            check_out.text = str(data[0][2])
-            car_mode.text = data[0][3]
-            Amount.text = str(data[0][4])
+            # verifying if data is found in database
+            if data == [] and data1 == []:
+                self.create_dialog("Data not found in the database!")
+            else:
 
-            print("Served receipt data to Screen")
+                # Redirect to Receipt screen
+                self.root.transition.direction = "left"
+                self.root.current = "receipt"
+
+                # Get ids from to Receipt Screen
+                name = self.screen.get_screen('receipt').ids.name
+                phone = self.screen.get_screen('receipt').ids.phone
+                registration = self.screen.get_screen('receipt').ids.regNo
+                check_in = self.screen.get_screen('receipt').ids.entryTime
+                check_out = self.screen.get_screen('receipt').ids.exitTime
+                car_mode = self.screen.get_screen('receipt').ids.car
+                Amount = self.screen.get_screen('receipt').ids.amount
+
+                # Render Data back to Receipt Screen
+                name.text = data1[0][1]
+                phone.text = data1[0][2]
+                registration.text = data[0][0]
+                check_in.text = str(data[0][1])
+                check_out.text = str(data[0][2])
+                car_mode.text = data[0][3]
+                Amount.text = str(data[0][4])
+
+                print("Served receipt data to Screen")
 
     def auth(self):
 
