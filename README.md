@@ -25,7 +25,7 @@ This is a Parking system application using mysql as a database for the backend
 ## Tech Stack
 * KivyMD
 * mysql.connector
-* Jinja2 and PDFkit
+* Jinja2 and python-dotenv
 
 **Python Language is used for implementation.**
 
