@@ -101,6 +101,7 @@ class Park_n_Go(MDApp):
         with open(file = f"{filename}", mode="w", encoding="utf-8") as ticket:
             ticket.write(content)
 
+        # Creating a treaded object
         obj = start_serv(filename)
 
         stop_event = threading.Event()
@@ -108,11 +109,13 @@ class Park_n_Go(MDApp):
         t1 = threading.Thread(target=obj.start_server, args=(stop_event,))
         t2 = threading.Thread(target=obj.open_file)
 
+        # Starting both Threads
         t1.start()
         t2.start()
 
         time.sleep(1)
 
+        # Stoping Threads
         stop_event.set()
 
         t1.join()

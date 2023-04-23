@@ -3,6 +3,7 @@ import socketserver
 import webbrowser
 import time
 
+# Class to generate a server instance and openHTML instance
 class start_serv:
     def __init__(self, filename):
         self.filename = filename
@@ -16,7 +17,7 @@ class start_serv:
                 httpd.handle_request()
                 exit()
                 
-
+    
     def open_file(self):
         print()
         url = 'http://localhost:2611/' + self.filename
