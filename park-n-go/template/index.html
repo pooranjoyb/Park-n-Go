@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receipt</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         @media print, screen and (min-width:1240px) {
             * {
@@ -165,11 +167,29 @@
                 margin-left: 82%;
                 font-size: 15px;
             }
+
+            .download {
+                margin: 5rem;
+                background-color: black;
+                color: white;
+                padding: 1rem 1.5rem 1rem 1.5rem;
+                border-radius: 1rem;
+                text-decoration: none;
+                cursor: pointer;
+                box-shadow: 2px 2px 20px 2px grey;
+
+            }
+
+            #btn-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 
-<body>
+<body id="body1">
     <div id="top">
         <p class="top_p_1">+91 1234567890</p>
         <p class="top_p_2">parkngo@hotmail.com</p>
@@ -237,6 +257,26 @@
         </b>
         <p id="ceo">CEO of Park-n-Go Company</p>
     </div>
+    <div id="btn-container">
+        <button class="download" onclick="print()">Download Receipt</button>
+    </div>
 </body>
+
+<script>
+    window.jsPDF = window.jspdf.jsPDF;
+    var docPDF = new jsPDF();
+    function print() {
+        var elementHTML = document.querySelector("#body1");
+        docPDF.html(elementHTML, {
+            callback: function (docPDF) {
+                docPDF.save('Receipt');
+            },
+            x: 15,
+            y: 15,
+            width: 180,
+            windowWidth: 1200
+        });
+    }
+</script>
 
 </html>
