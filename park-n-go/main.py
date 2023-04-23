@@ -13,6 +13,9 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from datetime import timedelta
 import webbrowser
+from server import start_serv
+import threading
+import time
 
 # Loading .env file
 load_dotenv()
@@ -97,7 +100,24 @@ class Park_n_Go(MDApp):
         content = template.render(write)
         with open(file = f"{filename}", mode="w", encoding="utf-8") as ticket:
             ticket.write(content)
-        webbrowser.open('file://' + os.path.realpath(filename))
+
+        obj = start_serv(filename)
+
+        stop_event = threading.Event()
+
+        t1 = threading.Thread(target=obj.start_server, args=(stop_event,))
+        t2 = threading.Thread(target=obj.open_file)
+
+        t1.start()
+        t2.start()
+
+        time.sleep(1)
+
+        stop_event.set()
+
+        t1.join()
+        t2.join()
+
 
 
     # A dialog box is  created to notify that login is not sucessfull
