@@ -12,7 +12,6 @@ from dotenv import load_dotenv
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from datetime import timedelta
-import webbrowser
 from server import start_serv
 import threading
 import time
