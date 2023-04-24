@@ -39,7 +39,7 @@ pip install -r requirements.txt
 Once you have installed the dependencies, you can run the application by executing the following command in the root directory 
 
 ```python
-python main.py
+python -m park-n-go
 ```
 
 ## Setting up .env file
