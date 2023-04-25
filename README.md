@@ -54,6 +54,13 @@ PASSWORD='pass'
 PORT='port'
 ```
 
+## Project Report : 
+[Check here for project Report](https://drive.google.com/file/d/1WK1AQ1SSKSBzGXK5yKNLjl9bMusk1HAC/view?usp=sharing)
+
+## Working Demonstration : 
+
+https://user-images.githubusercontent.com/34091879/234390096-0cde677d-ed63-4882-b934-37f11d955ff7.mp4
+
 ## 😍 Our Valuable Contributors
 
 Thanks to these wonderful people ✨
